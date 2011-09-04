@@ -1,0 +1,61 @@
+body {
+	font-size: 12pt;
+}
+
+h1,h2#author {
+	text-align: center;
+}
+			
+h3.actScene {
+	font-size: 1em;
+	font-weight: bold;
+	page-break-before: always;
+	text-align: center;
+}
+
+hr.page {
+	page-break-after: always;
+	width: 0;
+}
+
+p {
+	margin-top: 0;
+}
+
+p.character {
+	text-align: center;
+	margin-bottom: 0.04in;
+}
+
+p.dialogue {
+	margin-bottom: 0.22in;
+}
+
+p.end {
+	font-weight: bold;
+	text-align: center;
+}
+
+p.sceneDirections {
+	font-style: italic;
+	margin-left: 2in;
+	margin-right: 1in;
+	margin-bottom: 0.08in;
+}
+
+p.stageDirections {
+	font-style: italic;
+	margin-bottom: 0.22in;
+	margin-left: 1in;
+	margin-right: 1in;
+}
+
+span.characterDirections {
+	font-style: italic;
+}
+			
+p.characterStageDirections {
+	font-style: italic;
+	text-align: center;
+	margin-bottom: 0.04in;
+}

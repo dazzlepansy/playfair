@@ -1,14 +1,24 @@
+%--------------------------------------------------------
+%
+% Filename:		playfair.pl
+% Author:		St John Karp
+% Date:			3 September 2011
+% Version:		1.0
+%
+% Purpose:
+% A program to format stage play scripts.
+%
+% Copyright:
+% Playfair Script Formatter by St John Karp is licensed under a Creative Commons Attribution-NonCommercial-ShareAlike 3.0 Unported License.
+%
+%-------------------------------------------------------
+
 play_to_html(File):-
-	consult('/home/stjohn/XML/xmlprint-1.0.pl'),
-	open(File, read, In),
+	open(File, read, In, [encoding(utf8)]),
 	process_file(In, Play),
 	close(In),
 	play(HTML, Play, []),
-	xml_print(HTML),
-	atom_concat(File, '.html', OutFile),
-	open(OutFile, write, Out),
-	xml_write(Out, HTML, []),
-	close(Out).
+	xml_write(HTML, [header(false)]).
 
 
 play([element(html, [],
@@ -24,21 +34,21 @@ body(Scene) --> scene(Scene1), double_break, body(Body),
 	{append(Scene1, Body, Scene)}.
 
 
-scene(Scene) --> act(Act), double_break, scene_directions(SceneDirections), double_break, block_repeater(Block),
-	{append([Act|SceneDirections], Block, Scene)}.
+scene(Scene) --> act(Act), double_break, scene_directions(SceneDirections), double_break, island_repeater(Island),
+	{append([Act|SceneDirections], Island, Scene)}.
 
 
-block_repeater(Repeater) --> block(Block1), double_break, block_repeater(Block2),
-	{append(Block1, Block2, Repeater)}.
+island_repeater(Repeater) --> island(Island1), double_break, island_repeater(Island2),
+	{append(Island1, Island2, Repeater)}.
 
-block_repeater(Block) --> block(Block).
+island_repeater(Island) --> island(Island).
 
 
-block([Character, CharacterStageDirections, Dialogue]) --> character(Character), single_break, character_stage_directions(CharacterStageDirections), single_break, dialogue(Dialogue).
+island([Character, CharacterStageDirections, Dialogue]) --> character(Character), single_break, character_stage_directions(CharacterStageDirections), single_break, dialogue(Dialogue).
 
-block([StageDirections]) --> stage_directions(StageDirections).
+island([StageDirections]) --> stage_directions(StageDirections).
 
-block([Character, Dialogue]) --> character(Character), single_break, dialogue(Dialogue).
+island([Character, Dialogue]) --> character(Character), single_break, dialogue(Dialogue).
 
 
 scene_directions([element(p, [class = sceneDirections], [Text])]) --> text(['\n', <], Text).
@@ -81,18 +91,16 @@ italic(element(em, [], [Text])) --> [<, i, >], text(['\n', <, >, '(', ')'], Text
 character_directions(element(span, [class = characterDirections], ['(', Text, ')'])) --> ['('], text(['\n', <, >, '(', ')'], Text), [')'].
 
 
-head([Styles|Tags]) --> styles(Styles), sisu_repeater(Tags).
+head([Charset, Styles, Title]) --> meta_charset(Charset), styles(Styles), title(Title).
 
 
-sisu_repeater([Tag]) --> sisu_tag(Tag).
-
-sisu_repeater([Tag|Tags]) --> sisu_tag(Tag), double_break, sisu_repeater(Tags).
+title(element(title, [], [Text])) --> text(['\n'], Text).
 
 
-sisu_tag(element(title, [], [Text])) --> ['@', t, i, t, l, e, ':', ' '], text(['\n'], Text).
+styles(element(link, [rel = 'stylesheet', type = 'text/css', href = '/scriptfrenzy.css'], [])) --> [].
 
 
-styles(element(link, [rel = 'stylesheet', type = 'text/css', href = '/Data/styles/scriptfrenzy.css'], [])) --> [].
+meta_charset(element(meta, [charset = 'utf-8'], [])) --> [].
 
 
 single_break --> ['\n'].
@@ -107,6 +115,8 @@ line_break([element(br, [], [])|Break]) --> [<, b, r, '/', >], line_break(Break)
 
 
 act(element(h3, [class = actScene], ['A', 'C', 'T', Text])) --> ['A', 'C', 'T'], text(['\n'], Text).
+
+act(element(h3, [class = actScene], ['A', 'C', 'T', Text])) --> ['A', 'c', 't'], text(['\n'], Text).
 
 
 end(element(p, [class = end], ['The End.'])) --> ['T', 'h', 'e', ' ', 'E', 'n', 'd', '.'].

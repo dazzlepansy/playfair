@@ -18,37 +18,43 @@ play_to_html(File):-
 	process_file(In, Play),
 	close(In),
 	play(HTML, Play, []),
-	xml_write(HTML, [header(false)]).
+	xml_write(HTML, [header(false)]),
+	%write(HTML),
+	halt.
 
 
-play([element(html, [],
-	[element(head, [], Head),
-	element(body, [], [element(h1, [], Title)|Text])])])
-		--> head(Head), double_break, body(Body), double_break, end(End), single_break,
-			{member(element(title, [], Title), Head), append(Body, [End], Text)}.
+play([element(html, [], [Head, Body, End])])
+		--> head(Head, Title, Author, Personae, Time, Setting), double_break, body(Body, Title, Author, Personae, Time, Setting), double_break, end(End), single_break.
 
 
-body(Scene) --> scene(Scene).
-
-body(Scene) --> scene(Scene1), double_break, body(Body),
-	{append(Scene1, Body, Scene)}.
+body(element(body, [], [TitlePage, MetaPage|Scenes]), Title, Author, Personae, Time, Setting) --> title_page(TitlePage, Title, Author), meta_page(MetaPage, Personae, Time, Setting), scene_repeater(Scenes).
 
 
-scene(Scene) --> act(Act), double_break, scene_directions(SceneDirections), double_break, island_repeater(Island),
+scene_repeater([Scene|Scenes]) --> scene(Scene), double_break, scene_repeater(Scenes).
+
+scene_repeater([Scene]) --> scene(Scene).
+
+
+title_page(element(div, [id = titlepage], [element(h1, [], [Title]), element(p, [id = author], [Author])]), Title, Author) --> [].
+
+
+meta_page(element(div, [id = metapage], [Personae, Time, Setting]), Personae, Time, Setting) --> [].
+
+
+scene(element(div, [class = scene], Scene)) --> act(Act), double_break, scene_directions(SceneDirections), double_break, island_repeater(Island),
 	{append([Act|SceneDirections], Island, Scene)}.
 
 
-island_repeater(Repeater) --> island(Island1), double_break, island_repeater(Island2),
-	{append(Island1, Island2, Repeater)}.
+island_repeater([Island1|Island2]) --> island(Island1), double_break, island_repeater(Island2).
 
-island_repeater(Island) --> island(Island).
+island_repeater([Island]) --> island(Island).
 
 
-island([Character, CharacterStageDirections, Dialogue]) --> character(Character), single_break, character_stage_directions(CharacterStageDirections), single_break, dialogue(Dialogue).
+island(element(div, [class = dialogue], [Character, CharacterStageDirections, Dialogue])) --> character(Character), single_break, character_stage_directions(CharacterStageDirections), single_break, dialogue(Dialogue).
 
-island([StageDirections]) --> stage_directions(StageDirections).
+island(element(div, [class = stageDirections], [StageDirections])) --> stage_directions(StageDirections).
 
-island([Character, Dialogue]) --> character(Character), single_break, dialogue(Dialogue).
+island(element(div, [class = dialogue], [Character, Dialogue])) --> character(Character), single_break, dialogue(Dialogue).
 
 
 scene_directions([element(p, [class = sceneDirections], [Text])]) --> text(['\n', <], Text).
@@ -62,15 +68,13 @@ stage_directions(element(p, [class = stageDirections], [Text])) --> text(['\n'],
 character(element(p, [class = character], [Text])) --> text(['\n'], Text).
 
 
-dialogue(element(p, [class = dialogue], Line)) --> dialogue_line(Line).
+dialogue(element(p, [class = dialogue], [Unit])) --> dialogue_unit(Unit).
 
-dialogue(element(p, [class = dialogue], Dialogue)) --> dialogue_line(Line), single_break, dialogue(element(p, [class = dialogue], Dialogue1)),
-	{append(Line, [element(br, [], [])|Dialogue1], Dialogue)}.
+dialogue(element(p, [class = dialogue], [Unit|Dialogue])) --> dialogue_unit(Unit), dialogue(element(p, [class = dialogue], Dialogue)).
 
+dialogue(element(p, [class = dialogue], [Unit, element(br, [], [])|Dialogue])) --> dialogue_unit(Unit), single_break, dialogue(element(p, [class = dialogue], Dialogue)).
 
-dialogue_line([Unit]) --> dialogue_unit(Unit).
-
-dialogue_line([Unit|Dialogue]) --> dialogue_unit(Unit), dialogue(element(p, [class = dialogue], Dialogue)).
+dialogue(element(p, [class = dialogue], [Unit, element(br, [], []), element(br, [], [])|Dialogue])) --> dialogue_unit(Unit), line_break(_), dialogue(element(p, [class = dialogue], Dialogue)).
 
 
 dialogue_unit(Text) --> text(['\n', <, >, '(', ')'], Text).
@@ -91,16 +95,39 @@ italic(element(em, [], [Text])) --> [<, i, >], text(['\n', <, >, '(', ')'], Text
 character_directions(element(span, [class = characterDirections], ['(', Text, ')'])) --> ['('], text(['\n', <, >, '(', ')'], Text), [')'].
 
 
-head([Charset, Styles, Title]) --> meta_charset(Charset), styles(Styles), title(Title).
+head(element(head, [], [Charset, TitleTag, AuthorTag, Styles]), Title, Author, Personae, Time, Setting) --> meta_charset(Charset), styles(Styles), tag_title(TitleTag, Title), single_break, tag_author(AuthorTag, Author), single_break, tag_personae(Personae), single_break, tag_time(Time), single_break, tag_setting(Setting).
 
 
-title(element(title, [], [Text])) --> text(['\n'], Text).
+tag_title(element(title, [], [Text]), Text) --> ['@', t, i, t, l, e, ':', ' '], text(['\n'], Text).
 
 
-styles(element(link, [rel = 'stylesheet', type = 'text/css', href = '/scriptfrenzy.css'], [])) --> [].
+tag_author(element(meta, [name = author, id = authortag, content = Full, last = Last], []), Full) --> ['@', a, u, t, h, o, r, ':', ' '], text(['\n', ','], Last), [',', ' '], text(['\n'], First),
+	{atomic_list_concat([First, ' ', Last], Full)}.
 
 
-meta_charset(element(meta, [charset = 'utf-8'], [])) --> [].
+tag_time(element(div, [], [element(p, [class = level3], ['Time']), element(p, [], [Text])])) --> ['@', t, i, m, e, ':', ' '], text(['\n'], Text).
+
+
+tag_setting(element(div, [], [element(p, [class = level3], ['Setting']), element(p, [], [Text])])) --> ['@', s, e, t, t, i, n, g, ':', ' '], text(['\n'], Text).
+
+
+tag_personae(element(div, [], [element(p, [class = level3], ['Dramatis Personæ']), Persona])) --> persona(Persona).
+
+tag_personae(element(div, [], [element(p, [class = level3], ['Dramatis Personæ']), Persona|Personae])) --> persona(Persona), single_break, tag_personae(element(div, [], [_|Personae])).
+
+
+persona(element(p, [], [Text])) --> ['@', p, e, r, s, o, n, a, ':', ' '], text(['\n'], Text).
+
+
+%date(element(meta, [name = date, content = ], [])) --> [].
+
+
+styles(element(link, [rel = 'stylesheet', type = 'text/css', href = 'scriptfrenzy.css'], [])) --> [].
+
+
+%meta_charset(element(meta, [charset = 'utf-8'], [])) --> [].
+
+meta_charset(element(meta, ['http-equiv' = 'Content-Type', content = 'text/html; charset=utf-8'], [])) --> [].
 
 
 single_break --> ['\n'].

@@ -1,0 +1,39 @@
+@page {
+	@top-right {
+		content: prince-script(upperCase, string(title, first)) " / " counter(page);
+	}
+}
+			
+h3.actScene {
+	font-size: 1em;
+	page-break-before: always;
+	text-align: center;
+}
+
+p.character {
+	margin-left: 2.5in;
+}
+
+p.sceneDirections {
+	margin-left: 2in;
+	margin-right: 1in;
+	margin-top: 1em;
+}
+
+p.sceneDirections:before,p.stageDirections:before {
+	content: "(";
+}
+
+p.sceneDirections:after,p.stageDirections:after {
+	content: ")";
+}
+
+p.stageDirections {
+	margin-left: 0.5in;
+	margin-right: 1in;
+}
+			
+p.characterStageDirections {
+	margin-left: 1.5in;
+	margin-right: 1in;
+}

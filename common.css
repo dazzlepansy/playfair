@@ -1,0 +1,92 @@
+@page {
+	margin: 1in 1in 1in 1.5in;
+	size: 8.5in 11in;	/* Letter paper */
+	@top-right {
+		font-family: monospace;
+	}
+}
+
+@page meta {
+	@top-right {
+		content: normal;
+	}
+}
+
+body {
+	font-family: monospace;
+	font-size: 12pt;
+}
+
+div#titlepage,div#metapage {
+	page: meta;
+	page-break-after: always;
+}
+
+div#play {
+	counter-reset: page 1;
+}
+
+h1 {
+	page-break-after: avoid;
+	string-set: title content();
+	text-align: center;
+	font-size: 1em;
+	font-style: normal;
+	font-weight: normal;
+}
+
+p#author {
+	margin-top: 0.83em;
+	margin-bottom: 0.83em;
+	string-set: author content();
+	text-align: center;
+}
+
+hr.page {
+	page-break-after: always;
+	width: 0;
+}
+
+p.level3 {
+	margin-top: 1em;
+	margin-bottom: 1em;
+	text-transform: uppercase;
+}
+
+div.dialogue {
+	page-break-inside: avoid;
+}
+
+p {
+	margin-top: 0;
+}
+
+p.character {
+	margin-top: 1em;
+	margin-bottom: 0.04in;
+	text-transform: uppercase;
+}
+
+p.dialogue {
+	margin-bottom: 0.04in;
+	margin-top: 0.04in;
+}
+
+p.end {
+	margin-top: 4em;
+}
+
+p.stageDirections {
+	margin-top: 1em;
+	margin-bottom: 1em;
+}
+
+p.characterStageDirections {
+	margin-bottom: 0.04in;
+	margin-top: 0.04in;
+}
+
+em {
+	font-style: normal;
+	text-decoration: underline;	
+}

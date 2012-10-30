@@ -1,77 +1,22 @@
 @page {
-	margin: 1in 1in 1in 1.5in;
-	size: 8.5in 11in;	/* Letter paper */
-}
-
-@page {
 	@top-right {
 		content: counter(page) ".";
 	}
-}
-
-@page meta {
-	@top-right {
-		content: normal;
-	}
-}
-
-body {
-	font-family: monospace;
-	font-size: 12pt;
-}
-
-div#titlepage,div#metapage {
-	counter-reset: page;
-	page: meta;
-}
-
-h1 {
-	page-break-after: avoid;
-	string-set: title content();
-	text-align: center;
-	font-size: 1em;
-	font-style: normal;
-	font-weight: normal;
-}
-
-p#author {
-	margin-top: 0.83em;
-	margin-bottom: 0.83em;
-	string-set: "by\n" author content();
-	text-align: center;
 }
 			
 h2.slug {
 	font-size: 1em;
 	font-weight: normal;
-}
-
-hr.page {
-	page-break-after: always;
-	width: 0;
-}
-
-div.dialogue {
-	page-break-inside: avoid;
-}
-
-p {
-	margin-top: 0;
+	margin-top: 1em;
 }
 
 p.character {
 	margin-left: 2.2in;
-	margin-bottom: 0.04in;
 }
 
 p.dialogue {
-	margin-bottom: 0.22in;
 	margin-left: 1in;
 	margin-right: 1.5in;
-}
-
-p.stageDirections {
-	margin-bottom: 0.22in;
 }
 
 span.characterDirections {
@@ -81,9 +26,5 @@ p.characterStageDirections {
 	margin-left: 1.6in;
 	margin-right: 1.9in;
 	margin-bottom: 0.04in;
-}
-
-em {
-	font-style: normal;
-	text-decoration: underline;	
+	margin-top: 0.04in;
 }

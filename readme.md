@@ -1,6 +1,8 @@
 Playfair Script Formatter
 =========================
 
+The code for Playfair can be run locally on any machine running [SWI-Prolog](http://www.swi-prolog.org/).  Prolog does all the grunt-work of parsing and formatting the play as HTML.  You can then use [Prince](http://www.princexml.com/) to convert the HTML output into a PDF file.  A functional version of Playfair that outputs PDFs can be found on my website at [Playfair Script Formatter](http://stjohnkarp.net/projects/playfair-script-formatter/).
+
 What is the Playfair Script Formatter?
 --------------------------------------
 

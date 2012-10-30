@@ -27,9 +27,9 @@ script(Type, [element(html, [], [Head, Body])])
 		--> head(Type, Head, Variables), double_break, body(Type, Body, Variables).
 
 
-body(stage, element(body, [], [TitlePage, MetaPage, Play]), [Title, Author, Personae, Time, Setting]) --> title_page(TitlePage, Title, Author), meta_page(MetaPage, Personae, Time, Setting), play(stage, Play).
+body(Type, element(body, [], [TitlePage, MetaPage, Play]), [Title, Author, Personae, Time, Setting]) --> title_page(TitlePage, Title, Author), meta_page(MetaPage, Personae, Time, Setting), play(Type, Play).
 
-body(screen, element(body, [], [TitlePage, Play]), [Title, Author]) --> title_page(TitlePage, Title, Author), play(screen, Play).
+body(Type, element(body, [], [TitlePage, Play]), [Title, Author]) --> title_page(TitlePage, Title, Author), play(Type, Play).
 
 
 play(Type, element(div, [id = play], Play)) --> scene_repeater(Type, Scenes), double_break, end(End), single_break, {append(Scenes, [End], Play)}.
@@ -109,9 +109,9 @@ emphatic(element(em, [], [Text])) --> ['*'], text(['\n', '*'], Text), ['*'].
 character_directions(element(span, [class = characterDirections], ['(', Text, ')'])) --> ['('], text(['\n', <, >, '(', ')'], Text), [')'].
 
 
-head(stage, element(head, [], [Charset, TitleTag, AuthorTag|Styles]), [Title, Author, Personae, Time, Setting]) --> meta_charset(Charset), styles(stage, Styles), tag_title(TitleTag, Title), single_break, tag_author(AuthorTag, Author), single_break, tag_personae(Personae), single_break, tag_time(Time), single_break, tag_setting(Setting).
+head(Type, element(head, [], [Charset, TitleTag, AuthorTag|Styles]), [Title, Author, Personae, Time, Setting]) --> meta_charset(Charset), styles(Type, Styles), tag_title(TitleTag, Title), single_break, tag_author(AuthorTag, Author), single_break, tag_personae(Personae), single_break, tag_time(Time), single_break, tag_setting(Setting).
 
-head(screen, element(head, [], [Charset, TitleTag, AuthorTag|Styles]), [Title, Author]) --> meta_charset(Charset), styles(screen, Styles), tag_title(TitleTag, Title), single_break, tag_author(AuthorTag, Author).
+head(Type, element(head, [], [Charset, TitleTag, AuthorTag|Styles]), [Title, Author]) --> meta_charset(Charset), styles(Type, Styles), tag_title(TitleTag, Title), single_break, tag_author(AuthorTag, Author).
 
 
 tag_title(element(title, [], [Text]), Text) --> ['@', t, i, t, l, e, ':', ' '], text(['\n'], Text).
@@ -146,9 +146,7 @@ styles_specific(stage, element(link, [rel = 'stylesheet', type = 'text/css', hre
 styles_specific(screen, element(link, [rel = 'stylesheet', type = 'text/css', href = 'scriptfrenzy_screen.css'], [])) --> [].
 
 
-%meta_charset(element(meta, [charset = 'utf-8'], [])) --> [].
-
-meta_charset(element(meta, ['http-equiv' = 'Content-Type', content = 'text/html; charset=utf-8'], [])) --> [].
+meta_charset(element(meta, [charset = 'utf-8'], [])) --> [].
 
 
 single_break --> ['\n'].

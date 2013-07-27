@@ -3,6 +3,7 @@
 	size: 8.5in 11in;	/* Letter paper */
 	@top-right {
 		font-family: monospace;
+		font-size: 12pt;
 	}
 }
 

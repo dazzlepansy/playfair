@@ -66,4 +66,4 @@ Each character block starts with the character's name followed by a new line. Th
 
 One thing that isn't generally recommended for scripts, but which I find quite handy, is adding emphasis to a word.  If you want to add emphasis, enclose the text *between two asterisks*.  This format is very human-readable to users who chat online, and the formatter will output the text as underlined.
 
-Finally, at the very end of your script, you write "The End." — and you're done! Save your script as a plain text, UTF-8 file with a .txt extension and upload it to the Playfair Script Formatter.
+Finally, at the very end of your script, you write "The End." followed by one newline — and you're done! Save your script as a plain text, UTF-8 file with a .txt extension and upload it to the Playfair Script Formatter.

@@ -1,7 +1,7 @@
 Playfair Script Formatter
 =========================
 
-The code for Playfair can be run locally on any machine running [SWI-Prolog](http://www.swi-prolog.org/).  Prolog does all the grunt-work of parsing and formatting the play as HTML.  You can then use [Prince](http://www.princexml.com/) to convert the HTML output into a PDF file.
+The code for Playfair can be run locally on any machine running [SWI-Prolog](http://www.swi-prolog.org/). Prolog does all the grunt-work of parsing and formatting the play as HTML. You can then use [Prince](http://www.princexml.com/) to convert the HTML output into a PDF file.
 
 What is the Playfair Script Formatter?
 --------------------------------------
@@ -64,6 +64,6 @@ Now that you're in the body of the script, each block of text (separated by two 
 
 Each character block starts with the character's name followed by a new line. Then you can write the dialogue itself. Any text in parentheses will be rendered as a character direction, whether its on its own new line or whether it's in the middle of a character's dialogue. You can have as many new lines as you like in the middle of dialogue so that you can put character directions on their own line or break the dialogue up into paragraphs. Either way, do not add a double new line until you're ready for the next stage direction or the next character to speak.
 
-One thing that isn't generally recommended for scripts, but which I find quite handy, is adding emphasis to a word.  If you want to add emphasis, enclose the text *between two asterisks*.  This format is very human-readable to users who chat online, and the formatter will output the text as underlined.
+One thing that isn't generally recommended for scripts, but which I find quite handy, is adding emphasis to a word. If you want to add emphasis, enclose the text *between two asterisks*. This format is very human-readable to users who chat online, and the formatter will output the text as underlined.
 
 Finally, at the very end of your script, you write "The End." followed by one newline — and you're done! Save your script as a plain text, UTF-8 file with a .txt extension and run it through `playfair.pl`.

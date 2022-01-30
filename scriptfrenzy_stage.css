@@ -1,9 +1,3 @@
-@page {
-	@top-right {
-		content: prince-script(upperCase, string(title, first)) " / " counter(page);
-	}
-}
-			
 h3.actScene {
 	font-size: 1em;
 	page-break-before: always;

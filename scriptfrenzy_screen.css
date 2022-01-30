@@ -1,12 +1,5 @@
-@page {
-	@top-right {
-		content: counter(page) ".";
-	}
-}
-			
 h2.slug {
 	font-size: 1em;
-	font-weight: normal;
 	margin-top: 1em;
 }
 

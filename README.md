@@ -68,7 +68,35 @@ Finally, at the very end of your script, you write "The End." — and you're don
 ### Example Usage
 
 ```
-swipl --traditional -l playfair.pl -g 'play_to_html' < script.txt
+swipl --traditional -l playfair.pl -g 'play_to_html' < script.txt > script.html
+
+# For screenplays.
+wkhtmltopdf --enable-local-file-access \
+	--margin-bottom 1in \
+	--margin-top 1in \
+	--margin-right 1in \
+	--margin-left 1.5in \
+	--page-size letter \
+	--header-right '[page].' \
+	--header-font-name Courier \
+	--header-font-size 10
+	cover cover.html \
+	page script.html \
+	script.pdf
+
+# For stage plays.
+wkhtmltopdf --enable-local-file-access \
+	--margin-bottom 1in \
+	--margin-top 1in \
+	--margin-right 1in \
+	--margin-left 1.5in \
+	--page-size letter \
+	--header-right 'TITLE / [page]' \
+	--header-font-name Courier \
+	--header-font-size 10
+	cover cover.html \
+	page script.html \
+	script.pdf
 ```
 
 ## To-Do

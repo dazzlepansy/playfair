@@ -1,45 +1,19 @@
-@page {
-	margin: 1in 1in 1in 1.5in;
-	size: 8.5in 11in;	/* Letter paper */
-	@top-right {
-		font-family: monospace;
-		font-size: 12pt;
-	}
-}
-
-@page meta {
-	@top-right {
-		content: normal;
-	}
-}
-
-body {
-	font-family: monospace;
+* {
+	font-family: Courier, monospace;
 	font-size: 12pt;
-}
-
-div#titlepage,div#metapage {
-	page: meta;
-	page-break-after: always;
-}
-
-div#play {
-	counter-reset: page 1;
+	font-style: normal;
+	font-weight: normal;
+	margin: 0;
 }
 
 h1 {
 	page-break-after: avoid;
-	string-set: title content();
 	text-align: center;
-	font-size: 1em;
-	font-style: normal;
-	font-weight: normal;
 }
 
 p#author {
 	margin-top: 0.83em;
 	margin-bottom: 0.83em;
-	string-set: author content();
 	text-align: center;
 }
 
@@ -56,10 +30,6 @@ p.level3 {
 
 div.dialogue {
 	page-break-inside: avoid;
-}
-
-p {
-	margin-top: 0;
 }
 
 p.character {
@@ -88,6 +58,5 @@ p.characterStageDirections {
 }
 
 em {
-	font-style: normal;
 	text-decoration: underline;	
 }
